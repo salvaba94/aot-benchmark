@@ -1,9 +1,9 @@
-from networks.encoders.mobilenetv2 import MobileNetV2
-from networks.encoders.mobilenetv3 import MobileNetV3Large
-from networks.encoders.resnet import ResNet101, ResNet50
-from networks.encoders.resnest import resnest
-from networks.encoders.swin import build_swin_model
-from networks.layers.normalization import FrozenBatchNorm2d
+from aot.networks.encoders.mobilenetv2 import MobileNetV2
+from aot.networks.encoders.mobilenetv3 import MobileNetV3Large
+from aot.networks.encoders.resnet import ResNet101, ResNet50
+from aot.networks.encoders.resnest import resnest
+from aot.networks.encoders.swin import build_swin_model
+from aot.networks.layers.normalization import FrozenBatchNorm2d
 from torch import nn
 
 

@@ -1,5 +1,5 @@
-from networks.models.aot import AOT
-from networks.models.deaot import DeAOT
+from aot.networks.models.aot import AOT
+from aot.networks.models.deaot import DeAOT
 
 
 def build_vos_model(name, cfg, **kwargs):
