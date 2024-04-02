@@ -2,8 +2,8 @@ import numpy as np
 
 from utils.image import one_hot_mask
 
-from networks.layers.basic import seq_to_2d
-from networks.engines.aot_engine import AOTEngine, AOTInferEngine
+from aot.networks.layers.basic import seq_to_2d
+from aot.networks.engines.aot_engine import AOTEngine, AOTInferEngine
 
 
 class DeAOTEngine(AOTEngine):

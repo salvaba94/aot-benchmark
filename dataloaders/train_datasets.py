@@ -11,7 +11,7 @@ import torch
 from torch.utils.data import Dataset
 import torchvision.transforms as TF
 
-import dataloaders.image_transforms as IT
+import aot.dataloaders.image_transforms as IT
 
 cv2.setNumThreads(0)
 

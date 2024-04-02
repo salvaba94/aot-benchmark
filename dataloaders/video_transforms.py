@@ -5,7 +5,7 @@ from PIL import Image
 
 import torch
 import torchvision.transforms as TF
-import dataloaders.image_transforms as IT
+import aot.dataloaders.image_transforms as IT
 
 cv2.setNumThreads(0)
 

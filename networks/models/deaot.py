@@ -1,8 +1,8 @@
 import torch.nn as nn
 
-from networks.layers.transformer import DualBranchGPM
-from networks.models.aot import AOT
-from networks.decoders import build_decoder
+from aot.networks.layers.transformer import DualBranchGPM
+from aot.networks.models.aot import AOT
+from aot.networks.decoders import build_decoder
 
 
 class DeAOT(AOT):

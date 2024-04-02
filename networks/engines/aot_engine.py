@@ -4,10 +4,10 @@ import torch.nn.functional as F
 
 import numpy as np
 
-from utils.math import generate_permute_matrix
-from utils.image import one_hot_mask
+from aot.utils.math import generate_permute_matrix
+from aot.utils.image import one_hot_mask
 
-from networks.layers.basic import seq_to_2d
+from aot.networks.layers.basic import seq_to_2d
 
 
 class AOTEngine(nn.Module):

@@ -15,13 +15,13 @@ import torch.nn.functional as F
 from torch.utils.data import DataLoader
 from torchvision import transforms
 
-from networks.models import build_vos_model
-from networks.engines import build_engine
-from utils.checkpoint import load_network
+from aot.networks.models import build_vos_model
+from aot.networks.engines import build_engine
+from aot.utils.checkpoint import load_network
 
-from dataloaders.eval_datasets import VOSTest
-import dataloaders.video_transforms as tr
-from utils.image import save_mask
+from aot.dataloaders.eval_datasets import VOSTest
+import aot.dataloaders.video_transforms as tr
+from aot.utils.image import save_mask
 
 _palette = [
     255, 0, 0, 0, 0, 139, 255, 255, 84, 0, 255, 0, 139, 0, 139, 0, 128, 128,

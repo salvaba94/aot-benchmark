@@ -8,7 +8,7 @@ from PIL import Image
 import numpy as np
 from torch.utils.data import Dataset
 
-from utils.image import _palette
+from aot.utils.image import _palette
 
 
 class VOSTest(Dataset):

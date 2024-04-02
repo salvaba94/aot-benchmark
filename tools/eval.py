@@ -7,7 +7,7 @@ sys.path.append('..')
 import torch
 import torch.multiprocessing as mp
 
-from networks.managers.evaluator import Evaluator
+from aot.networks.managers.evaluator import Evaluator
 
 
 def main_worker(gpu, cfg, seq_queue=None, info_queue=None, enable_amp=False):

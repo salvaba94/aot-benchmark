@@ -13,7 +13,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch.utils.checkpoint as checkpoint
 
-from networks.layers.basic import DropPath
+from aot.networks.layers.basic import DropPath
 
 
 def _ntuple(n):

@@ -8,7 +8,7 @@ sys.path.append('..')
 
 import torch.multiprocessing as mp
 
-from networks.managers.trainer import Trainer
+from aot.networks.managers.trainer import Trainer
 
 
 def main_worker(gpu, cfg, enable_amp=True):

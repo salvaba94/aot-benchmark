@@ -14,15 +14,15 @@ from torchvision import transforms
 from dataloaders.train_datasets import DAVIS2017_Train, YOUTUBEVOS_Train, StaticTrain, TEST
 import dataloaders.video_transforms as tr
 
-from utils.meters import AverageMeter
-from utils.image import label2colormap, masked_image, save_image
-from utils.checkpoint import load_network_and_optimizer, load_network, save_network
-from utils.learning import adjust_learning_rate, get_trainable_params
-from utils.metric import pytorch_iou
-from utils.ema import ExponentialMovingAverage, get_param_buffer_for_ema
+from aot.utils.meters import AverageMeter
+from aot.utils.image import label2colormap, masked_image, save_image
+from aot.utils.checkpoint import load_network_and_optimizer, load_network, save_network
+from aot.utils.learning import adjust_learning_rate, get_trainable_params
+from aot.utils.metric import pytorch_iou
+from aot.utils.ema import ExponentialMovingAverage, get_param_buffer_for_ema
 
-from networks.models import build_vos_model
-from networks.engines import build_engine
+from aot.networks.models import build_vos_model
+from aot.networks.engines import build_engine
 
 
 class Trainer(object):

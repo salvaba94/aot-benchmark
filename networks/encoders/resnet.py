@@ -1,6 +1,6 @@
 import math
 import torch.nn as nn
-from utils.learning import freeze_params
+from aot.utils.learning import freeze_params
 
 
 class Bottleneck(nn.Module):
