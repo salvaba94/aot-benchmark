@@ -1,4 +1,4 @@
-from networks.decoders.fpn import FPNSegmentationHead
+from aot.networks.decoders.fpn import FPNSegmentationHead
 
 
 def build_decoder(name, **kwargs):
