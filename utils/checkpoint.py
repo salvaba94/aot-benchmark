@@ -4,9 +4,9 @@ import shutil
 import numpy as np
 
 
-def load_network_and_optimizer(net, opt, pretrained_dir, gpu, scaler=None):
+def load_network_and_optimizer(net, opt, pretrained_dir, device, scaler=None):
     pretrained = torch.load(pretrained_dir,
-                            map_location=torch.device("cuda:" + str(gpu)))
+                            map_location=torch.device(device))
     pretrained_dict = pretrained['state_dict']
     model_dict = net.state_dict()
     pretrained_dict_update = {}
@@ -25,12 +25,12 @@ def load_network_and_optimizer(net, opt, pretrained_dir, gpu, scaler=None):
     if scaler is not None and 'scaler' in pretrained.keys():
         scaler.load_state_dict(pretrained['scaler'])
     del (pretrained)
-    return net.cuda(gpu), opt, pretrained_dict_remove
+    return net.to(device=device), opt, pretrained_dict_remove
 
 
-def load_network_and_optimizer_v2(net, opt, pretrained_dir, gpu, scaler=None):
+def load_network_and_optimizer_v2(net, opt, pretrained_dir, device, scaler=None):
     pretrained = torch.load(pretrained_dir,
-                            map_location=torch.device("cuda:" + str(gpu)))
+                            map_location=torch.device(device))
     # load model
     pretrained_dict = pretrained['state_dict']
     model_dict = net.state_dict()
@@ -70,12 +70,12 @@ def load_network_and_optimizer_v2(net, opt, pretrained_dir, gpu, scaler=None):
     if scaler is not None and 'scaler' in pretrained.keys():
         scaler.load_state_dict(pretrained['scaler'])
     del (pretrained)
-    return net.cuda(gpu), opt, pretrained_dict_remove
+    return net.to(device=device), opt, pretrained_dict_remove
 
 
-def load_network(net, pretrained_dir, gpu):
+def load_network(net, pretrained_dir, device):
     pretrained = torch.load(pretrained_dir,
-                            map_location=torch.device("cuda:" + str(gpu)))
+                            map_location=torch.device(device))
     if 'state_dict' in pretrained.keys():
         pretrained_dict = pretrained['state_dict']
     elif 'model' in pretrained.keys():
@@ -96,7 +96,7 @@ def load_network(net, pretrained_dir, gpu):
     model_dict.update(pretrained_dict_update)
     net.load_state_dict(model_dict)
     del (pretrained)
-    return net.cuda(gpu), pretrained_dict_remove
+    return net.to(device=device), pretrained_dict_remove
 
 
 def save_network(net,
