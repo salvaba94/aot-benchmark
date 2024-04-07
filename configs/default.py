@@ -4,7 +4,7 @@ import importlib
 
 class DefaultEngineConfig():
     def __init__(self, exp_name='default', model='aott'):
-        model_cfg = importlib.import_module('configs.models.' +
+        model_cfg = importlib.import_module('aot.configs.models.' +
                                             model).ModelConfig()
         self.__dict__.update(model_cfg.__dict__)  # add model config
 
