@@ -12,9 +12,10 @@ class DeAOTEngine(AOTEngine):
                  gpu_id=0,
                  long_term_mem_gap=9999,
                  short_term_mem_skip=1,
-                 layer_loss_scaling_ratio=2.):
+                 layer_loss_scaling_ratio=2.,
+                 max_len_long_term=9999):
         super().__init__(aot_model, gpu_id, long_term_mem_gap,
-                         short_term_mem_skip)
+                         short_term_mem_skip, max_len_long_term)
         self.layer_loss_scaling_ratio = layer_loss_scaling_ratio
 
     def update_short_term_memory(self, curr_mask, curr_id_emb=None, skip_long_term_update=False):
