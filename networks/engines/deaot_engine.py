@@ -62,10 +62,10 @@ class DeAOTInferEngine(AOTInferEngine):
                  gpu_id=0,
                  long_term_mem_gap=9999,
                  short_term_mem_skip=1,
-                 max_aot_obj_num=None):
+                 max_aot_obj_num=None,
+                 max_len_long_term=9999):
         super().__init__(aot_model, gpu_id, long_term_mem_gap,
-                         short_term_mem_skip, max_aot_obj_num)
-
+                         short_term_mem_skip, max_aot_obj_num, max_len_long_term)
     def add_reference_frame(self, img, mask, obj_nums, frame_step=-1):
         if isinstance(obj_nums, list):
             obj_nums = obj_nums[0]
@@ -74,7 +74,8 @@ class DeAOTInferEngine(AOTInferEngine):
         while (aot_num > len(self.aot_engines)):
             new_engine = DeAOTEngine(self.AOT, self.gpu_id,
                                      self.long_term_mem_gap,
-                                     self.short_term_mem_skip)
+                                     self.short_term_mem_skip,
+                                     max_len_long_term = self.max_len_long_term)
             new_engine.eval()
             self.aot_engines.append(new_engine)
 
@@ -83,11 +84,14 @@ class DeAOTInferEngine(AOTInferEngine):
         img_embs = None
         for aot_engine, separated_mask, separated_obj_num in zip(
                 self.aot_engines, separated_masks, separated_obj_nums):
-            aot_engine.add_reference_frame(img,
-                                           separated_mask,
-                                           obj_nums=[separated_obj_num],
-                                           frame_step=frame_step,
-                                           img_embs=img_embs)
+            if aot_engine.obj_nums is None or aot_engine.obj_nums[0] < separated_obj_num:
+                aot_engine.add_reference_frame(img,
+                                            separated_mask,
+                                            obj_nums=[separated_obj_num],
+                                            frame_step=frame_step,
+                                            img_embs=img_embs)
+            else:
+                aot_engine.update_short_term_memory(separated_mask)
             if img_embs is None:  # reuse image embeddings
                 img_embs = aot_engine.curr_enc_embs
 
