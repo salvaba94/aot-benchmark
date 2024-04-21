@@ -11,8 +11,10 @@ import torch.distributed as dist
 from torch.utils.data import DataLoader
 from torchvision import transforms
 
-from dataloaders.train_datasets import DAVIS2017_Train, YOUTUBEVOS_Train, StaticTrain, TEST
-import dataloaders.video_transforms as tr
+# from dataloaders.train_datasets import DAVIS2017_Train, YOUTUBEVOS_Train, StaticTrain, TEST
+from aot.dataloaders.train_datasets import OVIS_Train, MOSE_Train, DAVIS2017_Train, YOUTUBEVOS_Train, StaticTrain, TEST, BL30K_Train, VIPSeg_Train, LASOT_Train, GOT10K_Train
+
+import aot.dataloaders.video_transforms as tr
 
 from aot.utils.meters import AverageMeter
 from aot.utils.image import label2colormap, masked_image, save_image
@@ -247,13 +249,13 @@ class Trainer(object):
                     cfg.PRETRAIN_MODEL))
             else:
                 model_encoder, removed_dict = load_network(
-                    self.model_encoder, cfg.MODEL_ENCODER_PRETRAIN, self.gpu)
+                    self.model_encoder, cfg.PRETRAIN_MODEL, self.gpu)
                 if len(removed_dict) > 0:
                     self.print_log('Remove {} from pretrained model.'.format(
                         removed_dict))
                 self.print_log(
                     'Load pretrained backbone model from {}.'.format(
-                        cfg.MODEL_ENCODER_PRETRAIN))
+                        cfg.PRETRAIN_MODEL))
 
     def prepare_dataset(self):
         cfg = self.cfg
@@ -325,6 +327,77 @@ class Trainer(object):
                 enable_prev_frame=self.enable_prev_frame,
                 max_obj_n=cfg.MODEL_MAX_OBJ_NUM)
             train_datasets.append(train_ytb_dataset)
+
+        if 'vipseg' in cfg.DATASETS:
+            train_vip_dataset = VIPSeg_Train(
+                root=cfg.DIR_VIP,
+                transform=composed_transforms,
+                seq_len=cfg.DATA_SEQ_LEN,
+                rand_gap=cfg.DATA_RANDOM_GAP_VIP,
+                repeat_time=cfg.DATA_VIPSEG_REPEAT,
+                rand_reverse=cfg.DATA_RANDOM_REVERSE_SEQ,
+                merge_prob=cfg.DATA_DYNAMIC_MERGE_PROB_VIP,
+                enable_prev_frame=self.enable_prev_frame,
+                max_obj_n=cfg.MODEL_MAX_OBJ_NUM)
+            train_datasets.append(train_vip_dataset)
+        
+        if 'lasot' in cfg.DATASETS:
+            train_lasot_dataset = LASOT_Train(
+                root=cfg.DIR_LASOT,
+                transform=composed_transforms,
+                seq_len=cfg.DATA_SEQ_LEN,
+                rand_gap=cfg.DATA_RANDOM_GAP_LASOT,
+                rand_reverse=cfg.DATA_RANDOM_REVERSE_SEQ,
+                merge_prob=cfg.DATA_DYNAMIC_MERGE_PROB_LASOT,
+                repeat_time=cfg.DATA_LASOT_REPEAT,
+                enable_prev_frame=self.enable_prev_frame,
+                max_obj_n=cfg.MODEL_MAX_OBJ_NUM
+            )
+            train_datasets.append(train_lasot_dataset)
+        
+        if 'got10k' in cfg.DATASETS:
+            train_got10k_dataset = GOT10K_Train(
+                root=cfg.DIR_GOT10K,
+                transform=composed_transforms,
+                seq_len=cfg.DATA_SEQ_LEN,
+                rand_gap=cfg.DATA_RANDOM_GAP_GOT10K,
+                rand_reverse=cfg.DATA_RANDOM_REVERSE_SEQ,
+                merge_prob=cfg.DATA_DYNAMIC_MERGE_PROB_GOT10K,
+                repeat_time=cfg.DATA_GOT10K_REPEAT,
+                enable_prev_frame=self.enable_prev_frame,
+                max_obj_n=cfg.MODEL_MAX_OBJ_NUM
+            )
+            train_datasets.append(train_got10k_dataset)
+
+        if 'mose' in cfg.DATASETS:
+            train_mose_dataset = MOSE_Train(
+                root=cfg.DIR_MOSE,
+                transform=composed_transforms,
+                seq_len=cfg.DATA_SEQ_LEN,
+                rand_gap=cfg.DATA_RANDOM_GAP_MOSE,
+                repeat_time=cfg.DATA_MOSE_REPEAT,
+                rand_reverse=cfg.DATA_RANDOM_REVERSE_SEQ,
+                merge_prob=cfg.DATA_DYNAMIC_MERGE_PROB_MOSE,
+                enable_prev_frame=self.enable_prev_frame,
+                max_obj_n=cfg.MODEL_MAX_OBJ_NUM
+            )
+            train_datasets.append(train_mose_dataset)
+
+        if 'ovis' in cfg.DATASETS:
+            train_ovis_dataset = OVIS_Train(
+                root=cfg.DIR_OVIS,
+                transform=composed_transforms,
+                seq_len=cfg.DATA_SEQ_LEN,
+                rand_gap=cfg.DATA_RANDOM_GAP_OVIS,
+                repeat_time=cfg.DATA_OVIS_REPEAT,
+                rand_reverse=cfg.DATA_RANDOM_REVERSE_SEQ,
+                merge_prob=cfg.DATA_DYNAMIC_MERGE_PROB_OVIS,
+                enable_prev_frame=self.enable_prev_frame,
+                max_obj_n=cfg.MODEL_MAX_OBJ_NUM
+            )
+            train_datasets.append(train_ovis_dataset)
+
+
 
         if 'test' in cfg.DATASETS:
             test_dataset = TEST(transform=composed_transforms,
